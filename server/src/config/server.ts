@@ -15,7 +15,7 @@ export default class Server {
   }
 
   private constructLogger(): FastifyLogger {
-    if (process.env.NODE_ENV !== 'PRODUCTION') {
+    if (process.env.NODE_ENV === 'development') {
       return {
         transport: {
           target: 'pino-pretty',
@@ -31,12 +31,12 @@ export default class Server {
 
   private initializeServer(): void {}
 
-  listen(port: number = 3000) {
+  listen(port: number = 3000, cb = () => {}) {
     return this.server
       .listen({
         port,
       })
-      .then(() => {});
+      .then(cb);
   }
 
   get() {
